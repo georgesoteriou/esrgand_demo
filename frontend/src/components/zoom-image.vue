@@ -26,7 +26,7 @@ export default {
       }
     },
     name() {
-      return `${this.title.toLowerCase().split(" ").join("_")}.png`;
+      return `${this.title.toLowerCase().split(" ").join("_")}.jpg`;
     },
   },
 };
