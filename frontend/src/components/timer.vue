@@ -29,7 +29,7 @@ export default {
   watch: {
     loading(is) {
       if (is) {
-        this.interval = setInterval(this.incrementTime, this.totalTime * 10);
+        this.interval = setInterval(this.incrementTime, 10);
       } else {
         clearInterval(this.interval);
         this.time = 100;
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     incrementTime() {
-      this.time = this.time + this.totalTime / 100;
+      this.time = this.time + 0.01;
     },
   },
   computed: {
