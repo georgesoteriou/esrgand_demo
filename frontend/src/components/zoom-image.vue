@@ -1,6 +1,11 @@
 <template>
   <fragment>
-    <h1>{{ title }}</h1>
+    <h1>
+      {{ title }}
+      <v-btn icon :href="img" :download="name">
+        <v-icon>mdi-download</v-icon>
+      </v-btn>
+    </h1>
     <panZoom v-if="img != null && !disable" class="zoomBorder mx-5">
       <v-img :src="img" contain />
     </panZoom>
@@ -19,6 +24,9 @@ export default {
       } else {
         return "";
       }
+    },
+    name() {
+      return `${this.title.toLowerCase().split(" ").join("_")}.png`;
     },
   },
 };

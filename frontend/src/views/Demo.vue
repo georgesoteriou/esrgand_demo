@@ -32,11 +32,11 @@
       <v-col cols="12" lg="6" align="center" v-if="input">
         <ZoomImage title="Your Image" :img="input" :disable="!zoom" />
       </v-col>
-      <v-col cols="12" lg="6" align="center" v-if="(input && loading) || depth">
-        <ZoomImage title="Depth Estimation" :img="depth" :disable="!zoom" />
-      </v-col>
       <v-col cols="12" lg="6" align="center" v-if="(input && loading) || sr">
         <ZoomImage title="ESRGAN_D SR" :img="sr" :disable="!zoom" />
+      </v-col>
+      <v-col cols="12" lg="6" align="center" v-if="(input && loading) || depth">
+        <ZoomImage title="Depth Estimation" :img="depth" :disable="!zoom" />
       </v-col>
     </v-row>
     <v-btn
