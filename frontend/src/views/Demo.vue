@@ -28,17 +28,12 @@
       <v-col cols="12"><Timer :loading="loading" /> </v-col>
     </v-row>
     <v-alert dismissible type="error" v-if="error">{{ error }}</v-alert>
-    <v-row justify="center">
+    <v-row justify="center" min-height="500px">
       <v-col cols="12" lg="6" align="center" v-if="input">
         <ZoomImage title="Your Image" :img="input" :disable="!zoom" />
       </v-col>
       <v-col cols="12" lg="6" align="center" v-if="(input && loading) || depth">
         <ZoomImage title="Depth Estimation" :img="depth" :disable="!zoom" />
-      </v-col>
-    </v-row>
-    <v-row justify="center" min-height="500px">
-      <v-col cols="12" lg="6" align="center" v-if="(input && loading) || hrx4">
-        <ZoomImage title="Bicubic Enlargement" :img="hrx4" :disable="!zoom" />
       </v-col>
       <v-col cols="12" lg="6" align="center" v-if="(input && loading) || sr">
         <ZoomImage title="ESRGAN_D SR" :img="sr" :disable="!zoom" />
@@ -72,7 +67,6 @@ export default {
       loading: false,
       sr: null,
       depth: null,
-      hrx4: null,
       error: null,
       zoom: false,
       totalTime: 60,
@@ -120,14 +114,12 @@ export default {
             if (data["success"]) {
               this.sr = data["sr"];
               this.depth = data["depth"];
-              this.hrx4 = data["hrx4"];
             } else {
               this.error = data["msg"];
             }
-            this.loading = false;
           })
-          .catch(() => {
-            // this.loading = false;
+          .finally(() => {
+            this.loading = false;
           });
       }
     },

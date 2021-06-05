@@ -913,18 +913,11 @@ class My_Dataset(Dataset):
                               interpolation=InterpolationMode.BICUBIC),
             transforms.ToTensor()
         ])
-        sr_transforms = transforms.Compose([
-            transforms.Resize((hr.height * self.scaling_factor,
-                               hr.width * self.scaling_factor),
-                              interpolation=InterpolationMode.BICUBIC),
-            transforms.ToTensor()
-        ])
 
         lr = lr_transforms(hr)
-        sr = sr_transforms(hr)
         hr = hr_transforms(hr)
 
-        return lr, hr, sr
+        return lr, hr
 
     def __len__(self):
         return 1
@@ -984,10 +977,10 @@ class Lit_Model(pl.LightningModule):
         return disp_resized
 
     def forward(self, batch):
-        lr, hr, sr_bicubic = batch
-        height, width = hr.shape[2], hr.shape[3]
+        lr, hr = batch
 
         # # Lr to SR
+        # height, width = hr.shape[2], hr.shape[3]
         # bicubic_enlarge = transforms.Resize((height, width), interpolation=InterpolationMode.BICUBIC)
         # depth_lr = self.predict_depth_lr(lr)
         # lrx4 = self.generator_d(lr, depth_lr).clamp(0, 1)
@@ -1002,10 +995,10 @@ class Lit_Model(pl.LightningModule):
         depth_hr = map_depth_colour(depth_hr)
 
         # return (lr_bicubic, depth_lr_bicubic, lrx4, psnr_metric, ssim_metric, hr, depth_hr, hrx4)
-        return FT.to_pil_image(hrx4[0]), depth_hr, FT.to_pil_image(sr_bicubic[0])
+        return FT.to_pil_image(hrx4[0]), depth_hr
 
 
-def enhance(img):
+def enhance(img, gpu):
     dataset = My_Dataset(img)
     dataloader = DataLoader(dataset, batch_size=1,
                             num_workers=4, shuffle=False)
@@ -1013,6 +1006,6 @@ def enhance(img):
     model = Lit_Model(esrgan_arch=f"esrgan23_trunk", num_residual_block=23)
 
     trainer = pl.Trainer(
-        gpus=0,
+        gpus=gpu,
         progress_bar_refresh_rate=0)
     return trainer.predict(model, dataloader)
