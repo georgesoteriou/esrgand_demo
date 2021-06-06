@@ -990,7 +990,7 @@ class Lit_Model(pl.LightningModule):
         # ssim_metric = ssim(to_y_tensor(lrx4), to_y_tensor(hr), data_range=255.)
 
         # HR to SR
-        depth_hr = self.predict_depth_lr(hr)
+        depth_hr = self.predict_depth_hr(hr)
         hrx4 = self.generator_d(hr, depth_hr).clamp(0, 1)
         depth_hr = map_depth_colour(depth_hr)
 
