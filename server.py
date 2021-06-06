@@ -47,7 +47,7 @@ def process_image():
         return jsonify({'success': False, 'msg': f"The process took more than {timeout} seconds. Maybe try a smaller picture."})
     except Exception as e:
         print(e)
-        return jsonify({'success': False, 'msg': "There was a problem"})
+        return jsonify({'success': False, 'msg': f"There was a problem: {e}"})
 
 
 @app.route('/')

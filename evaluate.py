@@ -990,7 +990,7 @@ class Lit_Model(pl.LightningModule):
         # ssim_metric = ssim(to_y_tensor(lrx4), to_y_tensor(hr), data_range=255.)
 
         # HR to SR
-        depth_hr = self.predict_depth_hr(hr)
+        depth_hr = self.predict_depth_lr(hr)
         hrx4 = self.generator_d(hr, depth_hr).clamp(0, 1)
         depth_hr = map_depth_colour(depth_hr)
 
@@ -998,12 +998,13 @@ class Lit_Model(pl.LightningModule):
         return FT.to_pil_image(hrx4[0]), depth_hr
 
 
+model = Lit_Model(esrgan_arch=f"esrgan23_trunk", num_residual_block=23)
+
+
 def enhance(img, gpu):
     dataset = My_Dataset(img)
     dataloader = DataLoader(dataset, batch_size=1,
                             num_workers=4, shuffle=False)
-
-    model = Lit_Model(esrgan_arch=f"esrgan23_trunk", num_residual_block=23)
 
     trainer = pl.Trainer(
         gpus=gpu,

@@ -1,0 +1,1 @@
+docker push georgesoteriou/sr:0.1
