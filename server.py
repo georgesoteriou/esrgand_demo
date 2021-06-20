@@ -3,7 +3,7 @@ import base64
 from io import BytesIO
 from evaluate import enhance
 from PIL import Image
-from flask import Flask, json, request, jsonify, send_file, render_template
+from flask import Flask, json, request, jsonify, send_file
 from func_timeout import func_timeout, FunctionTimedOut
 
 
@@ -23,7 +23,7 @@ if os.environ.get("PROD") != "true":
     CORS(app)
 
 timeout = int(os.environ.get("TIMEOUT", 10))
-gpu = int(os.environ.get("GPU", 0))
+gpu = int(os.environ.get("GPU", 1))
 
 
 @app.route("/api/timeout", methods=["GET"])

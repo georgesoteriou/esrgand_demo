@@ -705,7 +705,8 @@ class ResidualInResidualDenseBlock(nn.Module):
 model_urls_d = {
     "esrgan16": "https://www.doc.ic.ac.uk/~gs2617/models/esrgan16_generator_lr_depth_before_upsamplin-epoch=269-val_psnr=26.300203.pt",
     "esrgan16_trunk": "https://www.doc.ic.ac.uk/~gs2617/models/esrgan16_generator_lr_depth_trunk.pt",
-    "esrgan23_trunk": "https://www.doc.ic.ac.uk/~gs2617/models/esrgan23_generator_lr_depth_trunk.pt"
+    "esrgan23_trunk": "https://www.doc.ic.ac.uk/~gs2617/models/esrgan23_generator_lr_depth_trunk.pt",
+    "esrgan23_trunk_300": "http://www.doc.ic.ac.uk/~gs2617/models/esrgan23_generator_lr_depth_trunk_300.pt"
 }
 
 
@@ -998,7 +999,7 @@ class Lit_Model(pl.LightningModule):
         return FT.to_pil_image(hrx4[0]), depth_hr
 
 
-model = Lit_Model(esrgan_arch=f"esrgan23_trunk", num_residual_block=23)
+model = Lit_Model(esrgan_arch=f"esrgan23_trunk_300", num_residual_block=23)
 
 
 def enhance(img, gpu):
